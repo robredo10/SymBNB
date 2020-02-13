@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class AccountController extends AbstractController
 {
@@ -85,6 +86,7 @@ class AccountController extends AbstractController
      * Permet d'afficher et de traiter le formulaire de profil
      * 
      * @Route("/account/profile", name="account_profile")
+     * @IsGranted("ROLE_USER")
      * 
      * @return Response
      */
@@ -114,6 +116,7 @@ class AccountController extends AbstractController
      * Permet de modifier le mot de passe
      *
      * @Route("/account/password_update", name="account_password")
+     * @IsGranted("ROLE_USER")
      * 
      * @return Response
      */
@@ -145,7 +148,7 @@ class AccountController extends AbstractController
                     'success',
                     "Votre mot de passe a bien été modifié !"
                 );
-                
+
                 return $this->redirectToRoute('home');
             }
         }
@@ -159,15 +162,14 @@ class AccountController extends AbstractController
      * Permet d'afficher le profil de l'utilisateur connecté
      * 
      * @Route("/account", name="account_index")
+     * @IsGranted("ROLE_USER")
      *
      * @return Response
      */
-    public function myAccount() {
+    public function myAccount()
+    {
         return $this->render('user/index.html.twig', [
             'user' => $this->getUser()
         ]);
     }
 }
-
-
-
